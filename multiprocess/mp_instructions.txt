@@ -1,0 +1,64 @@
+MultiProcess
+
+To start we will create a child process. (create.c)
+
+Now we will see how to stop a child form the parent. (simple_stop.c)
+
+To stop the child we will use signals. A child process will take the same signalmask
+than the parent. If we handle SIGINT (ctrl c) before fork for example and send a SIGINT to
+the child from the parent after fork, the child will react exactly like the parent if
+he receive one.
+With this property we can stop a child if the parent have to stop and properly cleanup (no zombie process) (cascade_stop.c)
+
+Next, we need to understand interprocess communication (ipc).
+
+There are several solutions adn I would present two:
+
+- Named pipe (named_pipe.c)
+
+- Shared memory (posix_shared_memory.c)
+
+There is another type of shared memory, the System V shared memory but I won't present it now.
+If you want to see what it is -> man shmget
+
+You know how to create, destroy and manipulate process.
+
+Care it's hard.
+Now try to create a program with two process: two producer-consumer alternately.
+They start with a counter at 10.
+Use named pipe to passes message:
+- to start
+- to swap states (you finish my stock I become consumer !)
+
+and shared memory to consume other's counter every second.
+
+They can't refill their stock, they need to change state and refill by consume other counter.
+Your processes need to quit when ctrl + c, no zombie process permitted.
+
+Flow example: (producer -> P, consumer -> C)
+
+process1: count == 10
+process2: count == 10
+
+process1: write in pipe -> start consume please
+process1: state P
+process2: read pipe -> OK
+process2: state C
+process2: every second send something in shared memory meaning consume one
+ -> on receive process1 counter--
+process2: counter++
+...
+process1: counter == 0
+ -> send swap state in pipe
+process1: state C
+process2: read pipe -> OK
+process2: state P
+...
+At the end, print each counter, total must be 20.
+
+
+
+
+
+
+

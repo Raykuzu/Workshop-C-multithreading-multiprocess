@@ -1,0 +1,67 @@
+Hello guys to the "C: plus on est de fous plus on ris" workshop
+about multithreading/multiprocess.
+The goal will be to understand how to build a multithreaded application,
+a multiprocess application and finally to mix the 2.
+I advise to start with multithreading.
+First, we will see the difference between the 2, and the advantages and
+disadvantages of each.
+
+Thread vs process:
+
+Both are entities that have their own execution sequence but
+threads (also called lightweight process) share their memory with
+their parent process. You have a image called multithreading.jpg at the
+root of the workshop dir where you can see a mono thread process and
+a multi thread process. Imagine that multithreading corresponds to the
+image on the right and that multiprocess corresponds to the image on the
+left several times (in the case where these are monothreaded).
+
+Threads are more suitable for small tasks to be executed throughout the program
+while processes are more suitable for heavy tasks well separated.
+Think that interthread communication is much easier to set up than
+interprocess communication (due to shared memory).
+
+
+1) Performance
+
+The 2 are rather equivalent when used in the right way (see above) however
+advantage to the processes due to the fact that they have their own memory.
+
+Thread 1 - Process 2
+
+2) Heaviness
+
+Threads are lighter and less resource intensive.
+
+Thread 2 - Process 2
+
+3) Communication
+
+It is easier to communicate with a thread rather than with a process since with a
+thread we can use mutexes, semaphore and others whereas with a process we have to
+set up shared memory, pipes or sockets.
+
+Thread 3 - Process 2
+
+4) Cross-Platform
+
+It is possible to create process and threads under Linux and under Windows,
+however, processes that are not very portable on Windows.
+
+For historical reasons the process were more developed on Linux and the threads
+were more developed on Windows and the difference in performance is seen.
+
+Linux Threads 3 - Windows Threads 4 - Linux Process 3 - Windows Process 2
+
+This match as well as the points awarded are indicative. Don't take it literally.
+
+
+For this workshop we are working on Linux for obvious reasons such as any Tek
+must have a Linux distribution.
+
+This part should be read after complete both instructions in MP folder and MT folder.
+If you want to train a little more, take your MT program and add an argument to the binary,
+it's the number of process you need to create, each of them have to run an instance of
+your MT program. No zombie process and no memory leak is permit.
+
+If you succeed on the three programs, congratulations, you merit degree "More the merrier, more the laugh".

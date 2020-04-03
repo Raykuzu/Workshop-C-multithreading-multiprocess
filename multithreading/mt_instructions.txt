@@ -1,0 +1,39 @@
+MultiThreading
+
+Warning: don't forgot to link thread library (-lpthread)
+
+To start we will create and destroy a thread. (base.c)
+
+Next, we will see to quit a thread prematurely (quit.c)
+
+Then, we will see how to detach a thread (for autonomous task without need of return value) (detach.c)
+
+Now, it's time to attack the big one; shared memory a races conditions:
+
+The question is how to manage the data in shared memory ?
+What happens if 2 threads access the same data at the same time ?
+If one reads and the other writes the same data?
+
+Response is undefined behavior but we don't want that.
+A popular solution is mutexes.
+
+See mutex.c you have an example of race condition (undefined behavior)
+and an example with mutexes.
+A common problem with mutexes is deadlock -> a situation where all the threads are blocked
+on a lock (an example is provided in deadlock.c)
+
+You know how to create, destroy, manipulate threads,
+how to set up intercommunication and what errors you need to avoid.
+
+You can change the default attributes of a thread but in most the cases it's not useful.
+It's hard to master but it can be used to optimize in certain situations.
+For the brave and only the bravest (attribute.c)
+
+Now try to create a program with one producer thread (detach-mode) and three consumer threads.
+The producer have an int (or struct with an int) (==0) passed in parameter. In a loop of 10000000 laps he has to
+set the variable with a number (number % 3 == 0) if it equals 0.
+The consumers have the same parameter as producer. They have one int locale variable.
+In a loop of 10000000 laps they have to add one to the locale variable if the parameter > 0
+and subtract one on it.
+They return the local variable at the end.
+Print consumers return: they have to return exactly the same number.
